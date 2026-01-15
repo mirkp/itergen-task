@@ -1,0 +1,22 @@
+?start: value
+
+?value: object
+      | array
+      | STRING
+      | NUMBER
+      | "true"
+      | "false"
+      | "null"
+
+object: "{" [members] "}"
+members: pair ("," pair)*
+
+pair: STRING ":" value
+
+array: "[" [elements] "]"
+elements: value ("," value)*
+
+%import common.STRING
+%import common.NUMBER
+%import common.WS
+%ignore WS
