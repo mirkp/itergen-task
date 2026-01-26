@@ -1,0 +1,23 @@
+start: tool_call
+
+tool_call: "{" name_field "," args_field "}"
+
+name_field: "\"name\"" ":" STRING
+args_field: "\"args\"" ":" object
+
+?value: STRING
+      | SIGNED_NUMBER
+      | "true"
+      | "false"
+      | object
+      | array
+      | null
+
+object: "{" [pair ("," pair)*] "}"
+pair: STRING ":" value
+
+array: "[" [value ("," value)*] "]"
+
+STRING: "\"" /[^"\\]*/ "\""
+%import common.SIGNED_NUMBER
+%ignore /[ \t\n\r]+/
