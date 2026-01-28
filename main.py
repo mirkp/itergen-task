@@ -32,6 +32,9 @@ VALID_TOOLS = {
 prompt = (
     "Generate a tool call in JSON for the following task:\n"
     'Task: Create a container named "web_app" using the image "nginx:latest" and exposing ports [80, 443]."\n'
+    #'Task: Generate a report of type "sales" using the provided sales data: [{"item": "Widget A", "quantity": 10, "price": 25.00}, {"item": "Widget B", "quantity": 5, "price": 15.00}]."\n'
+    #'Task: Schedule a meeting with participants ["tony@example.com", "claire@example.com"] at "2024-07-01 14:00" with the agenda "Project Kickoff"."\n'
+    #'Task: Fetch the current weather for "New York City".\n'
     f"Call one of the tools defined here with the correct tool name and arguments: ${str(VALID_TOOLS)}\n"
     "Output the JSON only."
 )
@@ -66,7 +69,7 @@ for attempt in range(MAX_RETRIES):
 
     try:
         VALID_TOOLS[tool_name].validate(parsed_json.get("args"))
-        iter_gen.backward("value", 4)
+        iter_gen.backward("args_field", num=1)
     except Exception as e:
         print("Invalid arguments, backtracking...")
 
