@@ -1,6 +1,6 @@
 start: tool_call
 
-tool_call: "{" name_field "," args_field "}"
+tool_call: "{" name_field COMMA args_field "}"
 
 name_field: "\"name\"" ":" STRING
 args_field: "\"args\"" ":" object
@@ -11,13 +11,14 @@ args_field: "\"args\"" ":" object
       | "false"
       | object
       | array
-      | null
+      | "null"
 
-object: "{" [pair ("," pair)*] "}"
+object: "{" [pair (COMMA pair)*] "}"
 pair: STRING ":" value
 
-array: "[" [value ("," value)*] "]"
+array: "[" [value (COMMA value)*] "]"
 
 STRING: "\"" /[^"\\]*/ "\""
+COMMA: ","
 %import common.SIGNED_NUMBER
 %ignore /[ \t\n\r]+/
